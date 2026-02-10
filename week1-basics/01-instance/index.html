@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue 인스턴스 학습</title>
+    <!-- Vue 2 CDN - 빌드 도구 없이 바로 사용 가능 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+</head>
+<body>
+
+    <!-- =============================================
+         1. Vue 인스턴스 기본
+         Spring 비유: new Vue() = new ApplicationContext()
+         el: '#app'은 이 Vue가 관리할 HTML 영역을 지정
+         ============================================= -->
+    <div id="app">
+        <!-- {{ }} = Mustache 문법 (텍스트 보간법) -->
+        <!-- Spring 비유: Thymeleaf의 th:text="${message}" 와 동일 -->
+        <h1>{{ message }}</h1>
+        <p>이름: {{ name }}</p>
+        <p>나이: {{ age }}살</p>
+    </div>
+
+    <script>
+        // Vue 인스턴스 생성
+        // Spring 비유: @Configuration 클래스에서 Bean 설정하는 것과 비슷
+        var app = new Vue({
+            el: '#app',       // 어떤 HTML 요소를 관리할지 (CSS 선택자)
+            data: {           // 이 Vue가 관리하는 데이터 (= Spring의 Model)
+                message: '안녕하세요, Vue!',
+                name: '홍길동',
+                age: 25
+            }
+        });
+
+        // 콘솔에서 직접 데이터를 변경해 보세요!
+        // 브라우저 개발자 도구(F12) > Console 탭에서:
+        //   app.message = '반갑습니다!'
+        //   app.name = '김철수'
+        //   app.age = 30
+        // → 화면이 자동으로 바뀝니다! (반응형 데이터)
+    </script>
+
+</body>
+</html>

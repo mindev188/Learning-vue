@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-bind 디렉티브</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+    <style>
+        .active { color: white; background-color: #42b983; padding: 4px 8px; }
+        .inactive { color: gray; text-decoration: line-through; }
+        img { border-radius: 8px; }
+    </style>
+</head>
+<body>
+
+    <div id="app">
+        <h2>1. 기본 속성 바인딩</h2>
+        <!-- v-bind:속성="data의 키" -->
+        <a v-bind:href="homepage">Vue 공식 사이트</a>
+        <br><br>
+        <!-- 축약형: 콜론(:)만 쓰면 됨 (실무에서 거의 이것만 사용) -->
+        <img :src="imageUrl" :alt="imageAlt" width="200">
+
+        <h2>2. 동적 클래스 바인딩</h2>
+        <!-- :class에 객체를 넣으면 조건부로 클래스 적용 -->
+        <!-- { 클래스명: 조건 } → 조건이 true면 클래스 적용 -->
+        <span :class="{ active: isActive, inactive: !isActive }">
+            상태: {{ isActive ? '활성' : '비활성' }}
+        </span>
+
+        <h2>3. 동적 스타일 바인딩</h2>
+        <!-- :style에 객체를 넣으면 인라인 스타일 적용 -->
+        <!-- CSS의 font-size → JavaScript에서는 fontSize (카멜케이스) -->
+        <p :style="{ color: textColor, fontSize: textSize + 'px' }">
+            이 텍스트의 색상과 크기가 동적으로 바뀝니다
+        </p>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                // 1. 기본 속성
+                homepage: 'https://v2.vuejs.org/',
+                imageUrl: 'https://v2.vuejs.org/images/logo.svg',
+                imageAlt: 'Vue 로고',
+
+                // 2. 클래스 바인딩
+                isActive: true,
+
+                // 3. 스타일 바인딩
+                textColor: '#42b983',
+                textSize: 24
+            }
+        });
+
+        // 콘솔에서 시도해 보세요!
+        //   app.isActive = false       → 클래스가 active → inactive로 바뀜
+        //   app.textColor = 'red'      → 텍스트 색상 변경
+        //   app.textSize = 40          → 텍스트 크기 변경
+        //   app.imageUrl = 'https://v2.vuejs.org/images/logo.svg'
+    </script>
+
+</body>
+</html>
