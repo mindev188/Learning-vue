@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir:*)",
+      "Bash(cd:*)",
+      "WebFetch(domain:github.com)"
+    ]
+  },
+  "outputStyle": "Explanatory"
+}
