@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>v-if / v-show / v-for</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 20px auto; }
+        .todo-item { padding: 8px; margin: 4px 0; background: #f5f5f5; border-radius: 4px; }
+        .done { text-decoration: line-through; color: #999; }
+        .warning { color: orange; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div id="app">
+
+        <!-- =============================================
+             1. v-if / v-else-if / v-else
+             Spring 비유: Thymeleaf의 th:if / th:unless
+             ============================================= -->
+        <h2>1. v-if 조건부 렌더링</h2>
+        <p>현재 점수: {{ score }}점</p>
+        <!-- v-if / v-else-if / v-else는 반드시 연속된 형제 요소여야 함 -->
+        <p v-if="score >= 90">🎉 A등급 - 우수합니다!</p>
+        <p v-else-if="score >= 70" class="warning">👍 B등급 - 좋습니다!</p>
+        <p v-else class="error">📚 C등급 - 더 노력하세요!</p>
+
+        <!-- =============================================
+             2. v-if vs v-show 비교
+             ============================================= -->
+        <h2>2. v-if vs v-show 비교</h2>
+        <p>로그인 상태: {{ isLoggedIn ? '로그인됨' : '로그아웃됨' }}</p>
+        <!-- 브라우저 개발자 도구(F12)의 Elements 탭에서 차이를 확인해 보세요 -->
+        <p v-if="isLoggedIn">v-if: 로그인 환영 메시지 (false면 DOM에서 사라짐)</p>
+        <p v-show="isLoggedIn">v-show: 로그인 환영 메시지 (false면 display:none)</p>
+
+        <!-- =============================================
+             3. v-for 리스트 렌더링
+             Spring 비유: Thymeleaf의 th:each="item : ${list}"
+             ============================================= -->
+        <h2>3. v-for 리스트 렌더링</h2>
+
+        <!-- 기본 배열 반복 -->
+        <h3>과일 목록</h3>
+        <ul>
+            <!-- (item, index) in 배열 -->
+            <li v-for="(fruit, index) in fruits" :key="index">
+                {{ index + 1 }}. {{ fruit }}
+            </li>
+        </ul>
+
+        <!-- 객체 배열 반복 -->
+        <h3>할 일 목록</h3>
+        <div v-for="todo in todos" :key="todo.id" class="todo-item">
+            <!-- :class로 완료 여부에 따라 스타일 적용 (v-bind 복습!) -->
+            <span :class="{ done: todo.completed }">
+                {{ todo.text }}
+            </span>
+            <span v-if="todo.completed"> ✅</span>
+        </div>
+
+        <!-- v-for로 빈 배열일 때 -->
+        <h3>빈 목록 처리</h3>
+        <!-- v-if와 v-for를 함께 쓸 때는 v-if를 바깥 요소에 배치 -->
+        <p v-if="emptyList.length === 0">목록이 비어있습니다.</p>
+        <ul v-else>
+            <li v-for="item in emptyList" :key="item">{{ item }}</li>
+        </ul>
+
+    </div>
+
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                // v-if 용
+                score: 85,
+                isLoggedIn: true,
+
+                // v-for 용
+                fruits: ['사과', '바나나', '포도', '딸기'],
+
+                todos: [
+                    { id: 1, text: 'Vue 인스턴스 학습', completed: true },
+                    { id: 2, text: 'v-bind 학습', completed: true },
+                    { id: 3, text: 'v-if/v-for 학습', completed: false },
+                    { id: 4, text: '이벤트 핸들링 학습', completed: false }
+                ],
+
+                emptyList: []
+            }
+        });
+
+        // 콘솔에서 시도해 보세요!
+        //
+        // [v-if 테스트]
+        //   app.score = 95          → A등급으로 바뀜
+        //   app.score = 50          → C등급으로 바뀜
+        //   app.isLoggedIn = false  → v-if 요소는 사라지고, v-show는 숨겨짐
+        //
+        // [v-for 테스트]
+        //   app.fruits.push('망고')           → 목록에 망고 추가
+        //   app.todos[2].completed = true     → 3번째 할 일 완료 처리
+        //   app.emptyList.push('새 항목')     → "비어있습니다" 대신 목록 표시
+    </script>
+
+</body>
+</html>
